@@ -1,0 +1,12 @@
+name: kassekladde
+recipe: laravel
+config:
+  php: '8.1'
+  via: nginx
+  cache: redis
+  webroot: public
+tooling:
+  fix:
+    service: appserver
+    description: Run PHP-CS-FIXER
+    cmd: vendor/bin/pint
