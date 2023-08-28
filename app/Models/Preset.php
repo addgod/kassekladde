@@ -4,9 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Daybook extends Model
+class Preset extends Model
 {
     use HasFactory;
 
@@ -16,14 +15,7 @@ class Daybook extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'search',
+        'account_number',
     ];
-
-    /**
-     * The associated entries.
-     */
-    public function entries(): HasMany
-    {
-        return $this->hasMany(Entry::class);
-    }
 }

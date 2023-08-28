@@ -2,34 +2,26 @@
 
 namespace App\Nova;
 
-use App\Nova\Actions\Export;
-use App\Nova\Actions\ImportDaybook;
-use App\Nova\Actions\MobilePay;
-use App\Nova\Actions\Nets;
-use App\Nova\Actions\RunAllPresets;
-use App\Nova\Actions\Search;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Resource;
 
-class Daybook extends Resource
+class Preset extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\Daybook>
+     * @var class-string<\App\Models\Preset>
      */
-    public static $model = \App\Models\Daybook::class;
+    public static $model = \App\Models\Preset::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -37,7 +29,7 @@ class Daybook extends Resource
      * @var array
      */
     public static $search = [
-        'name',
+        'id',
     ];
 
     /**
@@ -48,9 +40,9 @@ class Daybook extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Text::make('Name'),
-            Date::make('Created At')->hideWhenCreating()->hideWhenUpdating(),
-            HasMany::make('Entries'),
+            ID::make()->sortable(),
+            Text::make('Search'),
+            Text::make('Account Number'),
         ];
     }
 
@@ -91,13 +83,6 @@ class Daybook extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [
-            ImportDaybook::make()->standalone(),
-            Export::make()->standalone(),
-            RunAllPresets::make(),
-            MobilePay::make(),
-            Nets::make(),
-            Search::make(),
-        ];
+        return [];
     }
 }

@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\File;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class ImportDaybook extends Action
@@ -23,10 +24,15 @@ class ImportDaybook extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
+        $daybook = Daybook::create([
+            'name' => $fields->name,
+        ]);
+
         $stream = fopen('php://memory', 'r+');
         fwrite($stream, $fields->file->get());
         rewind($stream);
         $first = true;
+
         while ($line = fgetcsv($stream, null, ';')) {
             if ($first) {
                 $first = false;
@@ -34,7 +40,7 @@ class ImportDaybook extends Action
                 continue;
             }
 
-            Daybook::create([
+            $daybook->entries()->create([
                 'attachment_number'      => $line[0],
                 'date'                   => str_replace('/', '-', $line[1]),
                 'text'                   => $line[2],
@@ -56,6 +62,7 @@ class ImportDaybook extends Action
     public function fields(NovaRequest $request)
     {
         return [
+            Text::make('Name'),
             File::make('File'),
         ];
     }

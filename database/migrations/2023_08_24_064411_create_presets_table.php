@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('daybooks', function (Blueprint $table) {
+        Schema::create('presets', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('search');
+            $table->string('account_number');
             $table->timestamps();
         });
     }
@@ -23,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('daybooks');
+        Schema::dropIfExists('presets');
     }
 };
