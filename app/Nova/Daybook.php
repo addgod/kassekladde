@@ -93,7 +93,7 @@ class Daybook extends Resource
     {
         return [
             ImportDaybook::make()->standalone(),
-            Export::make()->standalone(),
+            Export::make(),
             RunAllPresets::make(),
             MobilePay::make(),
             Nets::make(),
